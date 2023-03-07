@@ -32,6 +32,14 @@ void exec_window(){
             if(appEvent.type==Event::Closed) appWindow.close();
         }
 
+
+        if(part==2){
+            if(line[ite].height<line[ite+1].height){
+                major = line[ite].height;
+                line[ite].height = line[ite+1].height;
+                line[ite+1].height = major;
+            }
+        }
         if(part==1){
             for(int i=0;i<200;i++)
             {
@@ -44,16 +52,22 @@ void exec_window(){
 
         appWindow.clear(Color::Black);
         // draw texture to background
-        // appWindow.draw(fondo);
+        appWindow.draw(fondo);
 
         for(int i=0;i<200;i++){
-            rectangle.setFillColor(Color(255,255,255));
-            if(i==ite)rectangle.setFillColor(Color(255,0,0));
+            rectangle.setFillColor(Color(0,255,255));
+            if(i==ite)rectangle.setFillColor(Color(255, 105, 180));
             rectangle.setPosition(line[i].posx,600);
-            rectangle.setSize(Vector2f(2,line[i].height));
+            rectangle.setSize(Vector2f(8,line[i].height));
             rectangle.setRotation(180);
             appWindow.draw(rectangle);
         }
         appWindow.display();
+        ite++;
+        if(ite>=lims){
+            ite=0;
+            cont++;
+            lims--;
+        }
     }
 }
