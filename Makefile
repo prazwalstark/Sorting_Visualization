@@ -1,14 +1,14 @@
 CC=g++
 CFLAGS=-c -w
+INCLUDE_PATHS =-Iinclude
 LDFLAGS=-lsfml-graphics -lsfml-window -lsfml-system
-SOURCES=main.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=app
+OBJECTS=src/*.cpp
+EXECUTABLE=main
 
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CC) $(LDFLAGS) $(OBJECTS) $(INCLUDE_PATHS) -o $@
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@

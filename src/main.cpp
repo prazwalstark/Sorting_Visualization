@@ -1,14 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include </home/pstark/Documents/Codes/Sorting_Visualization/include/quicksort.h>
 using namespace std;
 
 int main()
 {
     // create the main window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Sorting Visualizer");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SORTING VISUALIZER");
 
     // set the background color to gray
-    window.clear(sf::Color(128, 128, 128));
+    window.clear(sf::Color(0, 0, 0));
 
     // set the font
     sf::Font font;
@@ -19,7 +20,7 @@ int main()
     }
 
     // set the text color to yellow
-    sf::Color textColor = sf::Color::Yellow;
+    sf::Color textColor = sf::Color::White;
 
     // create the merge button
     sf::Text mergeText("Merge Sort", font, 50);
@@ -84,6 +85,7 @@ int main()
                 {
                     cout << "Clicked Quicksort button\n";
                     // switch to the Quicksort window
+                    exec_window();
                 }
 
                 if (bstText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
