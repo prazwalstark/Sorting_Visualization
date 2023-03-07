@@ -9,7 +9,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "SORTING VISUALIZER");
 
     // set the background color to gray
-    window.clear(sf::Color(0, 0, 0));
+    window.clear(sf::Color(71,0,66));
 
     // set the font
     sf::Font font;
@@ -95,7 +95,9 @@ int main()
                 }
             }
         }
+        
     }
+    return 0;
 }
 
 
