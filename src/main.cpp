@@ -1,12 +1,299 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include </home/pstark/Documents/Codes/Sorting_Visualization/include/quicksort.h>
+#include<vector>
+#include <cmath>
+
+
+
+// #include "../include/quicksort.h"
+// #include "../include/mergesort.h"
+
+
+
+const int window_width = 960;
+const int window_height = 600;
+
+
+using namespace sf;
 using namespace std;
+sf::RenderWindow window(sf::VideoMode(960, 600), "SORTING VISUALIZER");
+
+int n = 80;
+float recHs[80];
+bool sorted = false;
+
+
+
+
+
+
+
+
+
+///////MERGE///////
+void mergesortProcess(RenderWindow& window2,int index)
+{
+    //Slow Down Process
+    sf::Clock pauseClock;
+
+    sf::Time pauseDuration = sf::seconds(0.05);
+    pauseClock.restart();
+    while (pauseClock.getElapsedTime() < pauseDuration)
+    {
+        //Do Nothing but produces delay
+    }
+    window2.clear();
+    for (int i = 0; i < n; i++)
+    {
+        sf::RectangleShape block(sf::Vector2f(10, recHs[i]));
+        block.setPosition(i * 12, 600 - recHs[i]);
+        block.setFillColor(sorted || i == index ? sf::Color::Green : sf::Color::White);
+        window2.draw(block);
+    }
+    window2.display();
+}
+
+void merge(RenderWindow& window2,float arr[], int l, int m, int r)
+{
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temporary arrays
+    std::vector<float> L(n1), R(n2);
+
+    // Copy data to temporary arrays L[] and R[]
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    // Merge the temporary arrays back into arr[l.to.r]
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 && j < n2)
+    {
+        if (L[i] <= R[j])
+        {
+            arr[k] = L[i];
+            i++;
+        }
+        else
+        {
+            arr[k] = R[j];
+            j++;
+        }
+        mergesortProcess(window2,k);
+        k++;
+    }
+
+    // Copy the remaining elements of L[], if there are any
+    while (i < n1)
+    {
+        arr[k] = L[i];
+        mergesortProcess(window2,k);
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if there are any
+    while (j < n2)
+    {
+        arr[k] = R[j];
+        mergesortProcess(window2,k);
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(RenderWindow& window2,float arr[], int l, int r)
+{
+    if (l < r)
+    {
+        int m = l + (r - l) / 2;
+
+        mergeSort(window2,arr, l, m);
+        mergeSort(window2,arr, m + 1, r);
+
+        merge(window2,arr, l, m, r);
+    }
+}
+
+void exec_window_merge(RenderWindow& window2)//window,int window_width,int window_height,int n,bool sorted
+{
+    for (int i = 0; i < n; i++)
+    {
+        recHs[i] = (rand() % 550);
+    }
+
+    while (window2.isOpen())
+    {
+        sf::Event event;
+
+        while (window2.pollEvent(event))
+        {
+            switch (event.type)
+            {
+
+            case sf::Event::Closed:
+                window2.close();
+            }
+        }
+        if (!sorted)
+        {
+            mergesortProcess(window2,0);
+            mergeSort(window2,recHs, 0, n - 1);
+            sorted = true;
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////QUICK//////
+void quicksortProcess(RenderWindow &window1,int index, int left, int right, int pivot)
+{
+    // Slow Down Process
+    sf::Clock pauseClock;
+    sf::Time pauseDuration = sf::seconds(0.8);
+    pauseClock.restart();
+    while (pauseClock.getElapsedTime() < pauseDuration)
+    {
+        // Do Nothing but produces delay
+    }
+    window1.clear();
+    for (int i = 0; i < n; i++)
+    {
+        sf::RectangleShape block(sf::Vector2f(10, recHs[i]));
+        block.setPosition(i * 12, 600 - recHs[i]);
+
+        // Change color based on index, pivot  and pointers
+        if (i == index)
+        {
+            block.setFillColor(sf::Color::Green);
+        }
+        else if (std::round(pivot) == std::round(recHs[i]))
+        {
+            block.setFillColor(sf::Color::Yellow);
+        }
+        else if (i == left)
+        {
+            block.setFillColor(sf::Color::Blue);
+        }
+        else if (i == right)
+        {
+            block.setFillColor(sf::Color::Red);
+        }
+        else
+        {
+            block.setFillColor(sf::Color::White);
+        }
+
+        window1.draw(block);
+    }
+    window1.display();
+}
+
+
+
+
+
+
+
+void quickSort(RenderWindow& window1,float arr[], int left, int right)
+{
+    int i = left;
+    int j = right;
+    int k = left;
+    float pivot = arr[(left + right) / 2];
+
+    // Dividing into sub arrays
+    while (i <= j)
+    {
+        while (arr[i] < pivot)
+            i++;
+        while (arr[j] > pivot)
+            j--;
+        if (i <= j)
+        {
+            std::swap(arr[i], arr[j]);
+            i++;
+            j--;
+        }
+        quicksortProcess(window1,k, i, j, pivot);
+        k++;
+    }
+    // Recursively repeating
+    if (left < j)
+        quickSort(window1,arr, left, j);
+    if (i < right)
+        quickSort(window1,arr, i, right);
+}
+
+
+
+
+//window,int window_width,int window_height,int n,bool sorted
+void exec_window_quick(RenderWindow& window1){
+    float recHs[80];
+    for (int i = 0; i < n; i++)
+    {
+        recHs[i] = (rand() % 550);
+    }
+
+    while (window1.isOpen())
+    {
+        sf::Event event;
+
+        while (window1.pollEvent(event))
+        {
+            switch (event.type)
+            {
+
+            case sf::Event::Closed:
+                window1.close();
+            }
+        }
+        if (!sorted)
+        {
+            quicksortProcess(window1,0, -1, -1, recHs[n/2]);
+            quickSort(window1,recHs, 0, n - 1);
+            sorted = true;
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
 
 int main()
 {
     // create the main window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SORTING VISUALIZER");
+    sf::RenderWindow window(sf::VideoMode(960, 600), "SORTING VISUALIZER");
 
     // set the background color to gray
     window.clear(sf::Color(71,0,66));
@@ -72,26 +359,34 @@ int main()
                 if (mergeText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
                     cout << "Merge button clicked!\n";
+                    sf::RenderWindow window2(sf::VideoMode(window_width, window_height), "Merge Sort");
                     //switch to the merge sort window
+                    exec_window_merge(window2);
                 }
 
                 if (selectionText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
                     cout << "Selection button clicked!\n";
                     // switch to the selection sort window
+                    // exec_window_selection();
+                    // exec_window_selection();
                 }
 
                 if (quicksortText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
                     cout << "Clicked Quicksort button\n";
                     // switch to the Quicksort window
-                    exec_window();
+                    // exec_window_quick();//window_width,window_height
+                    // window.close();
+                    sf::RenderWindow window1(sf::VideoMode(window_width, window_height), "Quick Sort");
+                    exec_window_quick(window1);
                 }
 
                 if (bstText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
                     cout << "Clicked BST button\n";
                     // switch to the BST window
+                    // exec_window_bst();
                 }
             }
         }
@@ -99,5 +394,4 @@ int main()
     }
     return 0;
 }
-
 

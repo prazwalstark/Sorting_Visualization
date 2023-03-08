@@ -1,8 +1,8 @@
 CC=g++
 CFLAGS=-c -w
-INCLUDE_PATHS =-Iinclude
+# INCLUDE_PATHS =-Iinclude
 LDFLAGS=-lsfml-graphics -lsfml-window -lsfml-system
-OBJECTS=src/*.cpp
+OBJECTS=src/main.cpp
 EXECUTABLE=main
 
 all: $(SOURCES) $(EXECUTABLE)
