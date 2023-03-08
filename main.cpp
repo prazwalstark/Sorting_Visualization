@@ -14,6 +14,18 @@ int main()
     }
     sf::Sound sound;
     sound.setBuffer(buffer);
+
+    sf::Music music;
+    if (!music.openFromFile("audios/sortingAudio.ogg"))
+    {
+        cout << "Error loading music\n";
+        return -1;
+    }
+    float volume = music.getVolume() * 0.7;
+    music.setVolume(volume);
+    music.setLoop(true); // set loop to true
+    music.play();
+
     // create the main window
     sf::RenderWindow window(sf::VideoMode(960, 600), "SORTING VISUALIZER");
 
@@ -79,9 +91,11 @@ int main()
         {
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
-                window.close();
+               { window.close();
+                music.stop();}
             if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-                window.close();
+                {window.close();
+                music.stop();}
             // check if the mouse is clicked
             if (event.type == sf::Event::MouseButtonPressed)
             {
