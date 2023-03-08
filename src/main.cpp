@@ -266,7 +266,7 @@ void quicksortProcess(RenderWindow &window1,int index, int left, int right, int 
 {
     // Slow Down Process
     sf::Clock pauseClock;
-    sf::Time pauseDuration = sf::seconds(0.8);
+    sf::Time pauseDuration = sf::seconds(0.08);
     pauseClock.restart();
     while (pauseClock.getElapsedTime() < pauseDuration)
     {
