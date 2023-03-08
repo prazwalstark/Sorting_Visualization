@@ -19,4 +19,4 @@ all: compile link
 compile:
 	g++ -IC:\SFML\include -c main.cpp
 link:
-	g++ main.o -o main -LC:\SFML\lib -lsfml-graphics -lsfml-window -lsfml-system
+	g++ main.o -o main -LC:\SFML\lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio

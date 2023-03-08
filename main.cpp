@@ -1,10 +1,19 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <cstdlib>
 using namespace std;
 
 int main()
 {
+    sf::SoundBuffer buffer;
+    if (!buffer.loadFromFile("audios/buttonClick.wav"))
+    {
+        cout<<"No sound!";
+        return -1;
+    }
+    sf::Sound sound;
+    sound.setBuffer(buffer);
     // create the main window
     sf::RenderWindow window(sf::VideoMode(960, 600), "SORTING VISUALIZER");
 
@@ -78,6 +87,7 @@ int main()
             {
                 if (mergeText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
+                    sound.play();
                     cout << "Merge button clicked!\n";
                     system("g++ -I ./src/include -L ./src/lib -o mergeSort mergeSort.cpp -lsfml-graphics -lsfml-window -lsfml-system");
                     system("mergeSort");
@@ -86,6 +96,7 @@ int main()
 
                 if (selectionText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
+                    sound.play();
                     cout << "Selection button clicked!\n";
                     cout << "Merge button clicked!\n";
                     system("g++ -I ./src/include -L ./src/lib -o selectionSort selectionSort.cpp -lsfml-graphics -lsfml-window -lsfml-system");
@@ -94,6 +105,7 @@ int main()
 
                 if (quicksortText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
+                    sound.play();
                     cout << "Clicked Quicksort button\n";
                     cout << "Merge button clicked!\n";
                     system("g++ -I ./src/include -L ./src/lib -o quickSort quickSort.cpp -lsfml-graphics -lsfml-window -lsfml-system");
@@ -102,6 +114,7 @@ int main()
 
                 if (bstText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
+                    sound.play();
                     cout << "Clicked BST button\n";
                     // switch to the BST window
                 }
