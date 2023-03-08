@@ -129,7 +129,15 @@ int main()
 
             case sf::Event::Closed:
                 window.close();
+                break;
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::Escape)
+                {
+                   window.close();
+                }
+                break;
             }
+           
         }
         if (!sorted)
         {

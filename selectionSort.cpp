@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
-
+using namespace std;
 const int window_width = 960;
 const int window_height = 600;
 sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Selection Sort");
@@ -90,9 +90,15 @@ int main()
         {
             switch (event.type)
             {
-
             case sf::Event::Closed:
                 window.close();
+                break;
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::Escape)
+                {
+                   window.close();
+                }
+                break;
             }
         }
         if (!sorted)
