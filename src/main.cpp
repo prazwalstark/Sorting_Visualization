@@ -28,6 +28,101 @@ bool sorted = false;
 
 
 
+//////SELECTION SORT////////
+
+void selectionsortProcess(RenderWindow& window3,int index, int minIndex, int i)
+{
+    // Slow Down Process
+    sf::Clock pauseClock;
+    sf::Time pauseDuration = sf::seconds(0.08);
+    pauseClock.restart();
+    while (pauseClock.getElapsedTime() < pauseDuration)
+    {
+        // Do Nothing but produces delay
+    }
+    window3.clear();
+    for (int j = 0; j < n; j++)
+    {
+        sf::RectangleShape block(sf::Vector2f(10, recHs[j]));
+        block.setPosition(j * 12, 600 - recHs[j]);
+
+        // Change color based on index, minIndex  and i
+        if (j == index)
+        {
+            block.setFillColor(sf::Color::Green);
+        }
+        else if (j == minIndex)
+        {
+            block.setFillColor(sf::Color::Yellow);
+        }
+        else
+        {
+            block.setFillColor(sf::Color::White);
+        }
+
+        window3.draw(block);
+    }
+    window3.display();
+}
+void selectionSort(RenderWindow& window3,float arr[], int n)
+{
+    int i, j, minIndex;
+
+    // One by one move boundary of unsorted subarray
+    for (i = 0; i < n - 1; i++)
+    {
+        // Find the minimum element in unsorted array
+        minIndex = i;
+        for (j = i + 1; j < n; j++)
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+
+        // Swap the found minimum element with the first element
+        std::swap(arr[minIndex], arr[i]);
+
+        selectionsortProcess(window3,i, minIndex, j);
+    }
+}
+
+
+void exec_window_selection(RenderWindow& window3)
+{
+    for (int i = 0; i < n; i++)
+    {
+        recHs[i] = (rand() % 550);
+    }
+
+    while (window3.isOpen())
+    {
+        sf::Event event;
+
+        while (window3.pollEvent(event))
+        {
+            switch (event.type)
+            {
+
+            case sf::Event::Closed:
+                window3.close();
+            }
+        }
+        if (!sorted)
+        {
+            selectionsortProcess(window3,0, -1, -1);
+            selectionSort(window3,recHs, n);
+            sorted = true;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 ///////MERGE///////
@@ -359,7 +454,7 @@ int main()
                 if (mergeText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                 {
                     cout << "Merge button clicked!\n";
-                    sf::RenderWindow window2(sf::VideoMode(window_width, window_height), "Merge Sort");
+                    sf::RenderWindow window2(sf::VideoMode(window_width, window_height), "MERGE SORT");
                     //switch to the merge sort window
                     exec_window_merge(window2);
                 }
@@ -368,8 +463,8 @@ int main()
                 {
                     cout << "Selection button clicked!\n";
                     // switch to the selection sort window
-                    // exec_window_selection();
-                    // exec_window_selection();
+                    sf::RenderWindow window3(sf::VideoMode(window_width, window_height), "MERGE SORT");
+                    exec_window_selection(window3);
                 }
 
                 if (quicksortText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
@@ -378,7 +473,7 @@ int main()
                     // switch to the Quicksort window
                     // exec_window_quick();//window_width,window_height
                     // window.close();
-                    sf::RenderWindow window1(sf::VideoMode(window_width, window_height), "Quick Sort");
+                    sf::RenderWindow window1(sf::VideoMode(window_width, window_height), "QUICK SORT");
                     exec_window_quick(window1);
                 }
 
