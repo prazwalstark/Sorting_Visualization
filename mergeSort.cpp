@@ -6,6 +6,8 @@ using namespace std;
 const int window_width = 960;
 const int window_height = 600;
 sf::RenderWindow window(sf::VideoMode(window_width,window_height), "Merge Sort");
+sf::Texture backgroundTexture;
+sf::Sprite backgroundSprite(backgroundTexture);
 int n = 80;
 float recHs[80];
 bool sorted = false;
@@ -22,6 +24,7 @@ void sortProcess(int index)
         //Do Nothing but produces delay
     }
     window.clear();
+    window.draw(backgroundSprite);
     for (int i = 0; i < n; i++)
     {
         sf::RectangleShape block(sf::Vector2f(10, recHs[i]));
@@ -101,6 +104,15 @@ void mergeSort(float arr[], int l, int r)
 
 int main()
 {
+    // sf::Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile("images/bg-01.png")) {
+        cout<<"Error Loading Background";
+        window.clear(sf::Color(71, 0, 66));
+    }
+    backgroundSprite.setTextureRect(sf::IntRect(0, 0, window.getSize().x, window.getSize().y));
+    backgroundSprite.setPosition(0, 0);
+    window.draw(backgroundSprite);
+
     for (int i = 0; i < n; i++)
     {
         recHs[i] = (rand() % 550);
